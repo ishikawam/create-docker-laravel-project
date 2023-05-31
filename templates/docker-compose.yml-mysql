@@ -1,0 +1,23 @@
+
+  mysql:
+    image: mysql:DATABASE_VERSION
+    ports:
+      - "DATABASE_PORT:DATABASE_INTERNAL_PORT"  # sequel用
+    volumes:
+      - "./storage/tmp/local-mysql/data:/var/lib/mysql:cached"
+      - ./docker/mysql/default.cnf:/etc/mysql/conf.d/default.cnf:cached
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: laravel
+    healthcheck:
+      test: MYSQL_PWD=password mysqladmin ping -h localhost -uroot
+      interval: "1s"
+      timeout: "1s"
+      retries: 10
+
+  health:
+    # mysqlの起動を待たせるためだけのscratch image
+    image: busybox
+    depends_on:
+      mysql:
+        condition: service_healthy
