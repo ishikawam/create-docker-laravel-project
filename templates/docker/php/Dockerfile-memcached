@@ -1,10 +1,10 @@
 
 # memcached
-ENV MEMCACHED_DEPS zlib-dev libmemcached-dev
-RUN apk add --no-cache --update libmemcached-libs supervisor
+RUN apk add --no-cache --update libmemcached-libs
 RUN set -xe \
     && apk add --no-cache --update --virtual .phpize-deps $PHPIZE_DEPS \
-    && apk add --no-cache --update --virtual .memcached-deps $MEMCACHED_DEPS \
+    && apk add --no-cache --update --virtual .memcached-deps zlib-dev libmemcached-dev \
     && pecl install memcached \
-    && rm -rf /tmp/* \
     && apk del .memcached-deps .phpize-deps
+
+RUN rm -rf /tmp/*

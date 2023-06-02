@@ -1,0 +1,10 @@
+# @todo; 使う, phpizeは別にする＞memcachedと共用
+
+# apcu
+RUN set -xe \
+    && apk add --no-cache --update --virtual .phpize-deps $PHPIZE_DEPS \
+    && pecl install apcu
+RUN docker-php-ext-enable apcu
+RUN apk del .phpize-deps
+
+RUN rm -rf /tmp/*

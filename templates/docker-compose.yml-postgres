@@ -4,7 +4,7 @@
     ports:
       - "DATABASE_PORT:DATABASE_INTERNAL_PORT"  # pgadmin用
     volumes:
-      - "./storage/tmp/local-postgres/data:/var/lib/postgresql/data:cached"
+      - ./storage/tmp/local-postgres/data:/var/lib/postgresql/data:cached
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: root

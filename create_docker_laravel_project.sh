@@ -267,6 +267,9 @@ if [[ $install_nginx = "yes" ]]; then
 fi
 
 # memcached
+# @todo; sessionにして memcached, apc, file, none, という選択肢にしたい
+# @todo; sessionだけじゃなくてcacheは？は？どう使い分けるのだ？arrayも使いようだし。
+# sessionの選択肢は原則nginxのときだよね。nginxなければデフォルトのfileでいい。
 
 while :
 do
@@ -404,7 +407,6 @@ if [[ $install_nginx = "yes" ]]; then
     cat docker-compose.yml-nginx >> docker-compose.yml
 else
     rm -rf docker/nginx
-    gsed -i -e "/\bAPP_URL\b/d" docker-compose.yml
     gsed -i -e "/\bnginx\b/d" Makefile
 fi
 
@@ -444,6 +446,8 @@ if [[ $install_memcached = "yes" ]]; then
 else
     gsed -i -e "/\bmemcached\b/d" docker/php/default.ini
 fi
+# @todo; apcu
+#    cat docker/php/Dockerfile-apcu >> docker/php/Dockerfile
 
 rm -rf docker/php/Dockerfile-*
 rm -rf docker-compose.yml-*
