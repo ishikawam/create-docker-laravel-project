@@ -496,8 +496,15 @@ esac
 
 # .gitignore
 echo "
+# assets
 /public/css/
 /public/js/
+
+# ide helper
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php
+
 " >> .gitignore
 
 # helper
@@ -523,6 +530,9 @@ docker run -e COMPOSER_MEMORY_LIMIT=-1 -v $(pwd):/code -w /code composer require
 # https://publisher.laravel-lang.com/
 # composer require laravel-lang/publisher laravel-lang/lang --dev
 # いったんやめよう。日本語化は含まない。
+
+# phstorm対応。ide_helperのインストール
+docker-compose run php composer require --dev barryvdh/laravel-ide-helper
 
 git add -A
 git commit -m "auto commit (install others)"

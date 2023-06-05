@@ -25,6 +25,7 @@ install:
 	docker-compose build
 	docker-compose run php composer install
 	docker-compose run php php artisan clear-compiled
+	make ide
 	npm install
 	npm run build
 
@@ -38,6 +39,9 @@ clear:
 	rm -rf storage/debugbar/*
 	git checkout storage
 	docker-compose run php php artisan cache:clear
+
+ide:
+	docker-compose exec php sh -c "php artisan ide-helper:generate ; php artisan ide-helper:meta ; php artisan ide-helper:models --nowrite"
 
 up:
 	docker-compose up -d --build
