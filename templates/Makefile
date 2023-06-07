@@ -97,6 +97,10 @@ fix-v:
 fix:
 	docker-compose run php ./vendor/bin/php-cs-fixer fix -v
 
+# pint
+pint:
+	docker-compose run php ./vendor/bin/pint
+
 #
 # tasks
 #
