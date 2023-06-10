@@ -87,15 +87,10 @@ test:
 open:
 	open http://localhost:NGINX_PORT
 
-# cs-fixer
-fix-diff:
-	docker-compose run php ./vendor/bin/php-cs-fixer fix --dry-run --diff -v
+# pint
+pint:
+	docker-compose run php ./vendor/bin/pint
 
-fix-v:
-	docker-compose run php ./vendor/bin/php-cs-fixer fix --dry-run -v
-
-fix:
-	docker-compose run php ./vendor/bin/php-cs-fixer fix -v
 
 # pint
 pint:

@@ -501,9 +501,9 @@ echo "
 /public/js/
 
 # ide helper
-.phpstorm.meta.php
-_ide_helper.php
-_ide_helper_models.php
+/.phpstorm.meta.php
+/_ide_helper.php
+/_ide_helper_models.php
 
 " >> .gitignore
 
@@ -511,8 +511,8 @@ _ide_helper_models.php
 npm install json
 `npm bin`/json -o json-4 -I -f composer.json -e 'this.autoload.files=["app/Helper/helpers.php"]'
 
-# php-cs-fixer
-docker-compose run php composer require --dev friendsofphp/php-cs-fixer
+# php-cs-fixer  wip: pintに変更
+#docker-compose run php composer require --dev friendsofphp/php-cs-fixer
 
 # debugbar
 if [[ $install_nginx = "yes" ]]; then
@@ -666,10 +666,10 @@ if [ $install_database -ne 4 ]; then
 fi
 
 
-# run php-cs-fixer
-make fix
-git add -u
-git commit -m "auto commit (run php-cs-fixer)"
+# run php-cs-fixer  wip: pintに変更
+# make fix
+# git add -u
+# git commit -m "auto commit (run php-cs-fixer)"
 
 
 # ここでブランチ切っておく
