@@ -8,7 +8,7 @@
       - ./vendor:/var/www/laravel/vendor:cached
       # cdn使わない場合
       - ./public:/var/www/laravel/public:cached
-      - ./node_modules:/var/www/laravel/node_modules:cached
+      - ./node_modules/admin-lte:/var/www/laravel/node_modules/admin-lte:cached
       # cdn使う場合
 #      - ./public/.htaccess:/var/www/laravel/public/.htaccess:cached
 #      - ./public/index.php:/var/www/laravel/public/index.php:cached

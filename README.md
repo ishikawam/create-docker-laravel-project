@@ -40,6 +40,9 @@ create_docker_laravel_project
       * MySQL Workbench
       * Models > Create EER Model from Database
       * 必要なテーブルに絞る
+* convert
+  * `php ~/scripts/create_docker_laravel_project/convert_html_to_blade.php`
+    * @todo; これやめて`jeroennoten/laravel-adminlte`にしたほうがいいかも
 * Swagger
   * composer require zircote/swagger-php
   * npm install swagger-ui --save-dev
