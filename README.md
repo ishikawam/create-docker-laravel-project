@@ -87,7 +87,6 @@ create_docker_laravel_project
 * awsやりたいなあ
   * その場合考えることは環境変数の伝播。
   * MakefileとterraformとLaravel serviceとLaravel run-taskで統一が理想。
-* .env.example を削除
 * Log Level Policy
   * 順に emergency、alert、critical、error、warning、notice、info、debug
   * をどうするか
