@@ -6,7 +6,7 @@ dummy:
 
 setup: pull
 	docker-compose run php composer install
-	docker-compose run --rm mysql bash -c 'MYSQL_PWD=password mysql -uroot -e "DROP USER IF EXISTS root@\"%\"; CREATE USER root@\"%\" IDENTIFIED BY \"password\"; GRANT ALL PRIVILEGES ON *.* TO root@\"%\" WITH GRANT OPTION;"'
+	make up ; docker-compose exec mysql bash -c 'MYSQL_PWD=password mysql -uroot -e "DROP USER IF EXISTS root@\"%\"; CREATE USER root@\"%\" IDENTIFIED BY \"password\"; GRANT ALL PRIVILEGES ON *.* TO root@\"%\" WITH GRANT OPTION;"'
 	test -f .env || cp -n .env.example .env
 	@if [ "`grep '^APP_KEY=.\+' .env`" ]; then \
 			echo ; \
@@ -23,7 +23,7 @@ install: pull
 	git submodule update --init
 	docker-compose run php composer install
 	docker-compose run php php artisan clear-compiled
-	make ide
+	make up ; make ide
 	npm install
 	npm run build
 
