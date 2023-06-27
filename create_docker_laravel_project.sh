@@ -295,7 +295,7 @@ do
     echo
     echo "1: jetstream:livewire"
     echo "2: jetstream:inertia(vuejs)"
-    echo "3: breeze(simple)"
+    echo "3: breeze(simple) Recommended!!"
     echo "4: ui(vuejs)"
     echo "5: ui(bootstrap)"
     echo "6: ui(react)"
