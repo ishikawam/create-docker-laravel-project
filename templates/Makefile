@@ -41,6 +41,12 @@ clear:
 ide:
 	docker-compose exec php sh -c "php artisan ide-helper:generate ; php artisan ide-helper:meta ; php artisan ide-helper:models --nowrite"
 
+analyse:
+	docker-compose exec php ./vendor/bin/phpstan analyse
+
+analyse-baseline:
+	docker-compose exec php ./vendor/bin/phpstan analyse --generate-baseline
+
 pull:
 	docker-compose pull
 	docker-compose build

@@ -534,6 +534,9 @@ docker run -e COMPOSER_MEMORY_LIMIT=-1 -v $(pwd):/code -w /code composer require
 # phstorm対応。ide_helperのインストール
 docker-compose run php composer require --dev barryvdh/laravel-ide-helper
 
+# larastan - phpstan
+docker-compose run php composer require --dev nunomaduro/larastan:^2.0
+
 git add -A
 git commit -m "auto commit (install others)"
 
