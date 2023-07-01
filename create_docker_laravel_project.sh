@@ -117,7 +117,7 @@ do
 done
 
 # Database
-# mysql, postgres, sqlite
+# mysql, pgsql, sqlite
 
 while :
 do
@@ -136,9 +136,8 @@ do
 done
 
 # database versions
-# database_name: laravelで使われている名前 pgsql
+# database_name: laravelで使われているdriver名 DB_CONNECTION, DB_HOST. pgsql
 # database_image: docker imageで使われている名前 postgres
-# どちらも関係ない場合はpostgresを使いたいのでdatabase_imageを使う
 
 case "$install_database" in
     1)
@@ -416,23 +415,23 @@ case "$install_database" in
         gsed -i -e "/\bmysql\b/d" Makefile
         cat docker/php/Dockerfile-mysql >> docker/php/Dockerfile
         cat docker-compose.yml-mysql >> docker-compose.yml
-        rm -rf docker/postgres
+        rm -rf docker/pgsql
         ;;
     2)
         cat docker/php/Dockerfile-mysql >> docker/php/Dockerfile
         cat docker-compose.yml-mysql-server >> docker-compose.yml
-        rm -rf docker/postgres
+        rm -rf docker/pgsql
         ;;
     3)
         gsed -i -e "/\bmysql\b/d" Makefile
-        cat docker/php/Dockerfile-postgres >> docker/php/Dockerfile
-        cat docker-compose.yml-postgres >> docker-compose.yml
+        cat docker/php/Dockerfile-pgsql >> docker/php/Dockerfile
+        cat docker-compose.yml-pgsql >> docker-compose.yml
         rm -rf docker/mysql
         ;;
     4)
         gsed -i -e "/\bmysql\b/d" Makefile
         rm -rf docker/mysql
-        rm -rf docker/postgres
+        rm -rf docker/pgsql
         gsed -i -e "/ DB_/d" docker-compose.yml
         gsed -i -e "/DATABASE_NAME/d" Makefile
         ;;

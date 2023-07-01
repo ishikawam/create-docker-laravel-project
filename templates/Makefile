@@ -42,10 +42,10 @@ ide:
 	docker-compose exec php sh -c "php artisan ide-helper:generate ; php artisan ide-helper:meta ; php artisan ide-helper:models --nowrite"
 
 analyse:
-	docker-compose exec php ./vendor/bin/phpstan analyse
+	docker-compose run php ./vendor/bin/phpstan analyse
 
 analyse-baseline:
-	docker-compose exec php ./vendor/bin/phpstan analyse --generate-baseline
+	docker-compose run php ./vendor/bin/phpstan analyse --generate-baseline
 
 pull:
 	docker-compose pull
@@ -92,11 +92,6 @@ test:
 
 open:
 	open http://localhost:NGINX_PORT
-
-# pint
-pint:
-	docker-compose run php ./vendor/bin/pint
-
 
 # pint
 pint:
