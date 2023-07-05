@@ -11,10 +11,12 @@ create_docker_laravel_project
 * docker
   * php-fpm
   * nginx
-  * mysql
+  * mysql, postgres
 * laravel
 * bootstrap
   * admin-lte
+* github actions
+  * CI
 
 ## やらないこと
 
@@ -59,6 +61,8 @@ create_docker_laravel_project
   * Kernel.phpでEnsureFrontendRequestsAreStatefulを有効に
   * /api/内でエラーもjsonで返すためにRequireJson実装
   * swagger postのためにVerifyCsrfToken でtokensMatch
+* CD
+  * aws
 
 ## todo
 
