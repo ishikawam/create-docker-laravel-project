@@ -6,6 +6,15 @@ create_docker_laravel_project
 * 目指すのは、レンタルサーバで稼働するサービスの開発環境を一瞬で構築、かつawsまで拡張できる
   * 石川はlocal、さくらのレンタルサーバ、さくらのVPS、AWS。
 
+## setup
+
+install
+
+* docker-compose
+* npm
+* gsed
+* koki-develop/tap/docker-tags
+
 ## なにをやっているか
 
 * docker
