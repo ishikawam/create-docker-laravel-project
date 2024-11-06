@@ -2,7 +2,7 @@
 
 # 前提
 # dockerが動いている
-# docker-compose npm gsed koki-develop/tap/docker-tags
+# docker compose npm gsed koki-develop/tap/docker-tags
 # phpもcomposerもいらない！目指せWindows実行！＞いや、全然無理。でもWindowsで動くパッケージを作れるかも。
 
 # laravel/sailは使わない＞なんか違った。でも参考にしたい。
@@ -415,23 +415,18 @@ case "$install_database" in
         gsed -i -e "/\bmysql\b/d" Makefile
         cat docker/php/Dockerfile-mysql >> docker/php/Dockerfile
         cat docker-compose.yml-mysql >> docker-compose.yml
-        rm -rf docker/pgsql
         ;;
     2)
         cat docker/php/Dockerfile-mysql >> docker/php/Dockerfile
         cat docker-compose.yml-mysql-server >> docker-compose.yml
-        rm -rf docker/pgsql
         ;;
     3)
         gsed -i -e "/\bmysql\b/d" Makefile
         cat docker/php/Dockerfile-pgsql >> docker/php/Dockerfile
         cat docker-compose.yml-pgsql >> docker-compose.yml
-        rm -rf docker/mysql
         ;;
     4)
         gsed -i -e "/\bmysql\b/d" Makefile
-        rm -rf docker/mysql
-        rm -rf docker/pgsql
         gsed -i -e "/ DB_/d" docker-compose.yml
         gsed -i -e "/DATABASE_NAME/d" Makefile
         ;;
@@ -477,7 +472,7 @@ case "$install_database" in
         # mysql立ち上がるのを待つ
         echo
         echo waiting...
-        until docker-compose exec mysql sh -c "MYSQL_PWD=password mysqladmin ping --silent"; do
+        until docker compose exec mysql sh -c "MYSQL_PWD=password mysqladmin ping --silent"; do
             sleep 2
             echo .
         done
@@ -511,12 +506,12 @@ npm install json
 `npm bin`/json -o json-4 -I -f composer.json -e 'this.autoload.files=["app/Helper/helpers.php"]'
 
 # php-cs-fixer  wip: pintに変更
-#docker-compose run php composer require --dev friendsofphp/php-cs-fixer
+#docker compose run php composer require --dev friendsofphp/php-cs-fixer
 
 # debugbar
 if [[ $install_nginx = "yes" ]]; then
-    docker-compose run php composer require --dev barryvdh/laravel-debugbar
-    docker-compose run php php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
+    docker compose run php composer require --dev barryvdh/laravel-debugbar
+    docker compose run php php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
 fi
 
 # migration カラム変更 メモリ喰うので対応 `PHP Fatal error:  Allowed memory size of 1610612736 bytes exhausted (tried to allocate 4096 bytes)`
@@ -531,10 +526,10 @@ docker run -e COMPOSER_MEMORY_LIMIT=-1 -v $(pwd):/code -w /code composer require
 # いったんやめよう。日本語化は含まない。
 
 # phstorm対応。ide_helperのインストール
-docker-compose run php composer require --dev barryvdh/laravel-ide-helper
+docker compose run php composer require --dev barryvdh/laravel-ide-helper
 
 # larastan - phpstan
-docker-compose run php composer require --dev nunomaduro/larastan:^2.0
+docker compose run php composer require --dev nunomaduro/larastan:^2.0
 
 git add -A
 git commit -m "auto commit (install others)"
@@ -560,40 +555,40 @@ case "$install_auth" in
     1)
         install_auth_name="jetstream:livewire"
         echo $install_auth_name
-        docker-compose run php composer require laravel/jetstream
-        docker-compose run php php artisan jetstream:install livewire
+        docker compose run php composer require laravel/jetstream
+        docker compose run php php artisan jetstream:install livewire
         # jetstreamのviewsファイルをコピー。これも選択式のほうが良いかも？でもAdminLTEなら必須かと。
-        docker-compose run php php artisan vendor:publish --tag=jetstream-views
+        docker compose run php php artisan vendor:publish --tag=jetstream-views
         ;;
     2)
         install_auth_name="jetstream:inertia(vuejs)"
         echo $install_auth_name
-        docker-compose run php composer require laravel/jetstream
-        docker-compose run php php artisan jetstream:install inertia
+        docker compose run php composer require laravel/jetstream
+        docker compose run php php artisan jetstream:install inertia
         ;;
     3)
         install_auth_name="breeze(simple)"
         echo $install_auth_name
-        docker-compose run php composer require laravel/breeze --dev
-        docker-compose run php php artisan breeze:install
+        docker compose run php composer require laravel/breeze --dev
+        docker compose run php php artisan breeze:install
         ;;
     4)
         install_auth_name="ui(vuejs)"
         echo $install_auth_name
-        docker-compose run php composer require laravel/ui
-        docker-compose run php php artisan ui vue --auth
+        docker compose run php composer require laravel/ui
+        docker compose run php php artisan ui vue --auth
         ;;
     5)
         install_auth_name="ui(bootstrap)"
         echo $install_auth_name
-        docker-compose run php composer require laravel/ui
-        docker-compose run php php artisan ui bootstrap --auth
+        docker compose run php composer require laravel/ui
+        docker compose run php php artisan ui bootstrap --auth
         ;;
     6)
         install_auth_name="ui(react)"
         echo $install_auth_name
-        docker-compose run php composer require laravel/ui
-        docker-compose run php php artisan ui react --auth
+        docker compose run php composer require laravel/ui
+        docker compose run php php artisan ui react --auth
         ;;
 esac
 
@@ -612,8 +607,8 @@ if [[ $install_socialite = "yes" ]]; then
     echo
 
     # socialite
-    docker-compose run php composer require laravel/socialite
-    docker-compose run php composer require socialiteproviders/facebook
+    docker compose run php composer require laravel/socialite
+    docker compose run php composer require socialiteproviders/facebook
 
     # socialite 設定
     docker run -e HTTP_PORT=$nginx_port -v $(pwd):/code -v $script_dir:/cdlp -w /code php:alpine php /cdlp/configure_socialite.php
