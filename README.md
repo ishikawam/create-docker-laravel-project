@@ -11,7 +11,6 @@ create_docker_laravel_project
 install
 
 * docker-compose
-* npm
 * gsed
 * koki-develop/tap/docker-tags
 
@@ -88,7 +87,6 @@ install
 * https強制
   * このあたりはコメントアウトで入れておいて、@todo; 入れたい。
 * flash message
-* nodenv入れるべき
 * webpack.mix.js
 * test, dusk
 * maintenance.html メンテナンス中ページと表示
@@ -124,7 +122,5 @@ install
 
 やるぞ
 
-* nodenv
-  * いや、ここでは必要ない気もしてきた。勝手にやって。
 * facebook選択
   * ここまでしなくてもなきがしてきた。

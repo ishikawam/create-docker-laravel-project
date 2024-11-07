@@ -465,25 +465,8 @@ git commit -m "auto commit (install templates & docker)"
 
 # setup
 # APP_KEY
+make setup
 make install
-make up
-case "$install_database" in
-    1)
-        # mysql立ち上がるのを待つ
-        echo
-        echo waiting...
-        until docker compose exec mysql sh -c "MYSQL_PWD=password mysqladmin ping --silent"; do
-            sleep 2
-            echo .
-        done
-        sleep 5
-        echo
-        ;;
-    2)
-        ;;
-    3)
-        ;;
-esac
 
 
 # others
@@ -502,8 +485,8 @@ echo "
 " >> .gitignore
 
 # helper
-npm install json
-`npm bin`/json -o json-4 -I -f composer.json -e 'this.autoload.files=["app/Helper/helpers.php"]'
+docker compose run --rm node npm install json
+docker compose run --rm node npm ./node_modules/.bin/json -o json-4 -I -f composer.json -e 'this.autoload.files=["app/Helper/helpers.php"]'
 
 # php-cs-fixer  wip: pintに変更
 #docker compose run php composer require --dev friendsofphp/php-cs-fixer
@@ -527,6 +510,7 @@ docker run -e COMPOSER_MEMORY_LIMIT=-1 -v $(pwd):/code -w /code composer require
 
 # phstorm対応。ide_helperのインストール
 docker compose run php composer require --dev barryvdh/laravel-ide-helper
+make ide
 
 # larastan - phpstan
 docker compose run php composer require --dev nunomaduro/larastan:^2.0
@@ -593,8 +577,7 @@ case "$install_auth" in
 esac
 
 if [ "$install_auth" != 0 ]; then
-    npm install
-    npm run build
+    docker compose run --rm node sh -c "npm install ; npm run build"
     git add -A
     git commit -m "auto commit (install auth) $install_auth_name"
 fi
@@ -625,7 +608,7 @@ if [[ $install_adminlte = "yes" ]]; then
     echo
 
     # AdminLTE
-    npm install admin-lte --save
+    docker compose run --rm node npm install admin-lte --save
 
     # index.blade.php
     docker run -v $(pwd):/code -v $script_dir:/cdlp -w /code php:alpine php /cdlp/convert_html_to_blade.php 'node_modules/admin-lte/index.html' 'resources/views/admin/index.blade.php'
@@ -649,8 +632,7 @@ Route::get('/admin', function () {
     #  public
     ln -s ../node_modules/admin-lte/ public/
 
-    npm install
-    npm run build
+    docker compose run --rm node sh -c "npm install ; npm run build"
 
     git add -A
     git commit -m "auto commit (install admin-lte)"

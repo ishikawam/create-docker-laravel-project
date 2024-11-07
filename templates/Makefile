@@ -6,7 +6,8 @@ dummy:
 
 setup: pull
 	docker compose run --rm php composer install
-	make up ; docker compose exec mysql bash -c 'MYSQL_PWD=password mysql -uroot -e "DROP USER IF EXISTS root@\"%\"; CREATE USER root@\"%\" IDENTIFIED BY \"password\"; GRANT ALL PRIVILEGES ON *.* TO root@\"%\" WITH GRANT OPTION;"'
+	docker compose up -d
+	docker compose exec mysql bash -c 'MYSQL_PWD=password mysql -uroot -e "DROP USER IF EXISTS root@\"%\"; CREATE USER root@\"%\" IDENTIFIED BY \"password\"; GRANT ALL PRIVILEGES ON *.* TO root@\"%\" WITH GRANT OPTION;"'
 	test -f .env || cp -n .env.example .env
 	@if [ "`grep '^APP_KEY=.\+' .env`" ]; then \
 			echo ; \
@@ -21,11 +22,8 @@ setup: pull
 
 install: pull
 	git submodule update --init
-	docker compose run --rm php composer install
-	docker compose run --rm php php artisan clear-compiled
-	make up ; make ide
-	npm install
-	npm run build
+	docker compose run --rm php sh -c "composer install ; php artisan clear-compiled"
+	docker compose run --rm node sh -c "npm install ; npm run build"
 
 clear:
 	docker compose run --rm php sh -c "\
@@ -39,7 +37,7 @@ clear:
 	docker compose run --rm php php artisan cache:clear
 
 ide:
-	docker compose exec php sh -c "php artisan ide-helper:generate ; php artisan ide-helper:meta ; php artisan ide-helper:models --nowrite"
+	docker compose run --rm php sh -c "php artisan ide-helper:generate ; php artisan ide-helper:meta ; php artisan ide-helper:models --nowrite"
 
 analyse:
 	docker compose run --rm php ./vendor/bin/phpstan analyse
@@ -52,7 +50,7 @@ pull:
 	docker compose build
 
 up:
-	docker compose up -d
+	docker compose up
 
 down:
 	docker compose down --remove-orphans
@@ -75,17 +73,14 @@ migrate-rollback:
 migrate-refresh:
 	docker compose exec php php artisan migrate:refresh
 
-logs:
-	docker compose logs -f
-
 log:
 	tail -f ./storage/logs/*
 
 dev:
-	npm run dev
+	docker compose run --rm node npm run dev
 
 build:
-	npm run build
+	docker compose run --rm node npm run build
 
 test:
 	docker compose exec php php artisan test

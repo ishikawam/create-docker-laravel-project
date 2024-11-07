@@ -8,3 +8,9 @@ services:
     environment:
       - APP_DEBUG=true
       - APP_NAME=PROJECT_NAME (local)
+
+  node:
+    image: node:current-alpine
+    volumes:
+      - .:/var/www/laravel:cached
+    working_dir: /var/www/laravel
