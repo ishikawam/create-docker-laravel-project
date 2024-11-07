@@ -99,6 +99,7 @@ pint:
 sample-inspire:
 	docker compose exec php php artisan inspire
 
-destroy: down
+destroy:
 	@echo "remove DB data. Are you sure? " && read ans && [ $$ans == yes ]
+	docker compose down --remove-orphans
 	rm -r storage/tmp/local-*/data

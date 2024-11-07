@@ -124,3 +124,5 @@ install
 
 * facebook選択
   * ここまでしなくてもなきがしてきた。
+* pint
+* larastan phpstan
