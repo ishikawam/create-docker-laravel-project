@@ -114,6 +114,12 @@ install
 * pest
   * composer require pestphp/pest-plugin-laravel --dev
   * ./vendor/bin/pest --init
+* php-fpmのチューニング
+  * pm系
+  * pm.max_children = 20
+  * pm.start_servers = 10
+  * pm.min_spare_servers = 5
+  * pm.max_spare_servers = 15
 
 ## todo 検討
 
