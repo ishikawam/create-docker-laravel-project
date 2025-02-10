@@ -114,6 +114,8 @@ install
 * pest
   * composer require pestphp/pest-plugin-laravel --dev
   * ./vendor/bin/pest --init
+* dockerのportsは `- "${LOCAL_WEB_PORT:-80}:80"` にすれば.envを読むので、いまのportを強引にさける処理はやめたい
+
 
 ## todo 検討
 

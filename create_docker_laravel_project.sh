@@ -489,12 +489,12 @@ docker compose run --rm node npm install json
 docker compose run --rm node npm ./node_modules/.bin/json -o json-4 -I -f composer.json -e 'this.autoload.files=["app/Helper/helpers.php"]'
 
 # php-cs-fixer  wip: pintに変更
-#docker compose run php composer require --dev friendsofphp/php-cs-fixer
+#docker compose run --rm php composer require --dev friendsofphp/php-cs-fixer
 
 # debugbar
 if [[ $install_nginx = "yes" ]]; then
-    docker compose run php composer require --dev barryvdh/laravel-debugbar
-    docker compose run php php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
+    docker compose run --rm php composer require --dev barryvdh/laravel-debugbar
+    docker compose run --rm php php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
 fi
 
 # migration カラム変更 メモリ喰うので対応 `PHP Fatal error:  Allowed memory size of 1610612736 bytes exhausted (tried to allocate 4096 bytes)`
@@ -509,11 +509,11 @@ docker run -e COMPOSER_MEMORY_LIMIT=-1 -v $(pwd):/code -w /code composer require
 # いったんやめよう。日本語化は含まない。
 
 # phstorm対応。ide_helperのインストール
-docker compose run php composer require --dev barryvdh/laravel-ide-helper
+docker compose run --rm php composer require --dev barryvdh/laravel-ide-helper
 make ide
 
 # larastan - phpstan
-docker compose run php composer require --dev nunomaduro/larastan:^2.0
+docker compose run --rm php composer require --dev nunomaduro/larastan:^2.0
 
 git add -A
 git commit -m "auto commit (install others)"
@@ -539,40 +539,40 @@ case "$install_auth" in
     1)
         install_auth_name="jetstream:livewire"
         echo $install_auth_name
-        docker compose run php composer require laravel/jetstream
-        docker compose run php php artisan jetstream:install livewire
+        docker compose run --rm php composer require laravel/jetstream
+        docker compose run --rm php php artisan jetstream:install livewire
         # jetstreamのviewsファイルをコピー。これも選択式のほうが良いかも？でもAdminLTEなら必須かと。
-        docker compose run php php artisan vendor:publish --tag=jetstream-views
+        docker compose run --rm php php artisan vendor:publish --tag=jetstream-views
         ;;
     2)
         install_auth_name="jetstream:inertia(vuejs)"
         echo $install_auth_name
-        docker compose run php composer require laravel/jetstream
-        docker compose run php php artisan jetstream:install inertia
+        docker compose run --rm php composer require laravel/jetstream
+        docker compose run --rm php php artisan jetstream:install inertia
         ;;
     3)
         install_auth_name="breeze(simple)"
         echo $install_auth_name
-        docker compose run php composer require laravel/breeze --dev
-        docker compose run php php artisan breeze:install
+        docker compose run --rm php composer require laravel/breeze --dev
+        docker compose run --rm php php artisan breeze:install
         ;;
     4)
         install_auth_name="ui(vuejs)"
         echo $install_auth_name
-        docker compose run php composer require laravel/ui
-        docker compose run php php artisan ui vue --auth
+        docker compose run --rm php composer require laravel/ui
+        docker compose run --rm php php artisan ui vue --auth
         ;;
     5)
         install_auth_name="ui(bootstrap)"
         echo $install_auth_name
-        docker compose run php composer require laravel/ui
-        docker compose run php php artisan ui bootstrap --auth
+        docker compose run --rm php composer require laravel/ui
+        docker compose run --rm php php artisan ui bootstrap --auth
         ;;
     6)
         install_auth_name="ui(react)"
         echo $install_auth_name
-        docker compose run php composer require laravel/ui
-        docker compose run php php artisan ui react --auth
+        docker compose run --rm php composer require laravel/ui
+        docker compose run --rm php php artisan ui react --auth
         ;;
 esac
 
@@ -590,8 +590,8 @@ if [[ $install_socialite = "yes" ]]; then
     echo
 
     # socialite
-    docker compose run php composer require laravel/socialite
-    docker compose run php composer require socialiteproviders/facebook
+    docker compose run --rm php composer require laravel/socialite
+    docker compose run --rm php composer require socialiteproviders/facebook
 
     # socialite 設定
     docker run -e HTTP_PORT=$nginx_port -v $(pwd):/code -v $script_dir:/cdlp -w /code php:alpine php /cdlp/configure_socialite.php
