@@ -115,7 +115,12 @@ install
   * composer require pestphp/pest-plugin-laravel --dev
   * ./vendor/bin/pest --init
 * dockerのportsは `- "${LOCAL_WEB_PORT:-80}:80"` にすれば.envを読むので、いまのportを強引にさける処理はやめたい
-
+* php-fpmのチューニング
+  * pm系
+  * pm.max_children = 20
+  * pm.start_servers = 10
+  * pm.min_spare_servers = 5
+  * pm.max_spare_servers = 15
 
 ## todo 検討
 
