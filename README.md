@@ -54,8 +54,8 @@ install
   * `php ~/scripts/create_docker_laravel_project/convert_html_to_blade.php`
     * @todo; これやめて`jeroennoten/laravel-adminlte`にしたほうがいいかも
 * Swagger
-  * composer require zircote/swagger-php
-  * npm install swagger-ui --save-dev
+  * docker compose run --rm php composer require zircote/swagger-php
+  * docker compose run --rm node npm install swagger-ui --save-dev
   * https://www.zu-min.com/archives/1098
 * memcached
 * queue
@@ -115,6 +115,11 @@ install
   * composer require pestphp/pest-plugin-laravel --dev
   * ./vendor/bin/pest --init
 * dockerのportsは `- "${LOCAL_WEB_PORT:-80}:80"` にすれば.envを読むので、いまのportを強引にさける処理はやめたい
+  * LOCAL_DB_PORT=15432
+  * LOCAL_WEB_PORT=10096
+  * make openとかもそのportを指定できるようにしたい
+  * include .env
+  * LOCAL_DB_PORT ?= 13326
 * php-fpmのチューニング
   * pm系
   * pm.max_children = 20

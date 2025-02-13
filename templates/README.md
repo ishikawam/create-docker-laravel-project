@@ -5,7 +5,6 @@ PROJECT_NAME
 
 ## Requirement
 
-* npm node
 * docker
 
 ## Install
